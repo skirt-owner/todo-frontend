@@ -3,9 +3,13 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
+import TodoItem from "./components/TodoItem.vue";
 
 export default defineComponent({
-  name: 'App'
-})
+  name: "App",
+  setup() {
+    return {};
+  },
+});
 </script>
