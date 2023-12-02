@@ -159,7 +159,6 @@ export default {
           (selectedTodo) => selectedTodo !== todo
         );
       }
-      console.log(this.selectedTodos);
     },
     buildUrlWithFilters() {
       let url = "/todos";
@@ -197,6 +196,7 @@ export default {
         const response = await api.get(url);
 
         this.todos = response.data;
+
         this.setFiltersOptions();
       } catch (error) {
         console.error(error);
@@ -223,11 +223,8 @@ export default {
       }
     },
     async applyFilters() {
-      for (const todo of this.selectedTodos) {
-        todo.isSelected = false;
-      }
-
-      this.selectedTodos.map((todo) => this.selectTodo(todo, false));
+      this.todos = [];
+      this.selectedTodos = [];
 
       await this.getTodos();
 

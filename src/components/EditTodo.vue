@@ -54,6 +54,7 @@
 
       <q-input
         maxlength="20"
+        autofocus
         outlined
         dense
         class="tag-input"
@@ -119,17 +120,22 @@ export default {
   },
   methods: {
     async updateCompleted() {
+      const id = this.todo.id;
       try {
-        await api.patch(`/todos/${this.todo.id}/completed`);
+        await api.patch(`/todos/${id}/completed`);
       } catch (error) {
         console.error(error);
       }
     },
     async updateTags() {
+      const id = this.todo.id;
       const tags_string =
         this.todo.tags.map((tag) => tag.name).join(",") + "," + this.addedTag;
-      console.log(tags_string);
-      await api.post(`/todos/${this.todo.id}/tags`, { tags: tags_string });
+      try {
+        await api.post(`/todos/${id}/tags`, { tags: tags_string });
+      } catch (error) {
+        console.error(error);
+      }
       this.$emit("tags-updated");
     },
     handleTagInputKeydown(event) {
@@ -159,12 +165,13 @@ export default {
       this.isAddingTag = true;
     },
     async deleteTag(tag) {
+      const id = this.todo.id;
       try {
-        await api.delete(`/todos/${this.todo.id}/tags/${tag.name}`);
-        this.$emit("tag-deleted", tag.id);
+        await api.delete(`/todos/${id}/tags/${tag.name}`);
       } catch (error) {
         console.error(error);
       }
+      this.$emit("tag-deleted", tag.id);
     },
     editTitle() {
       this.editedTitle = this.todo.title;
@@ -175,7 +182,12 @@ export default {
       });
     },
     async updateTitle() {
-      await api.put(`/todos/${this.todo.id}`, { title: this.editedTitle });
+      const id = this.todo.id;
+      try {
+        await api.put(`/todos/${this.todo.id}`, { title: this.editedTitle });
+      } catch (error) {
+        console.error(error);
+      }
       this.$emit("title-updated", this.editedTitle);
     },
     handleTitleInputKeydown(event) {
@@ -209,9 +221,14 @@ export default {
       });
     },
     async updateDescription() {
-      await api.put(`/todos/${this.todo.id}`, {
-        description: this.editedDescription,
-      });
+      const id = this.todo.id;
+      try {
+        await api.put(`/todos/${id}`, {
+          description: this.editedDescription,
+        });
+      } catch (error) {
+        console.error(error);
+      }
       this.$emit("description-updated", this.editDescription);
     },
     handleDescriptionInputKeydown(event) {

@@ -61,6 +61,7 @@
 
           <q-input
             maxlength="20"
+            autofocus
             outlined
             dense
             class="tag-input"

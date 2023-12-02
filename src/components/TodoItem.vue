@@ -1,7 +1,7 @@
 <template>
   <div
     class="rounded-borders todo"
-    :class="{ selected: getSelected }"
+    :class="{ selected: isSelected }"
     @click="toggleSelected"
   >
     <q-checkbox
@@ -9,15 +9,14 @@
       color="teal"
       checked-icon="task_alt"
       unchecked-icon="highlight_off"
+      size="70px"
       dense
       @update:model-value="updateCompleted"
       class="todo-status"
     ></q-checkbox>
     <span class="todo-title">{{ todo.title }}</span>
     <span class="todo-description">{{ todo.description }}</span>
-    <div
-      class="fit row inline wrap justify-center items-center content-center tags"
-    >
+    <div class="row wrap justify-center items-center content-center tags">
       <span
         class="rounded-borders tag"
         v-for="tag in todo.tags"
@@ -52,15 +51,11 @@ export default {
       completed: this.todo.completed,
     };
   },
-  computed: {
-    getSelected() {
-      return this.isSelected;
-    },
-  },
   methods: {
     async updateCompleted() {
+      const id = this.todo.id;
       try {
-        await api.patch(`/todos/${this.todo.id}/completed`);
+        await api.patch(`/todos/${id}/completed`);
       } catch (error) {
         console.error(error);
       }
@@ -80,12 +75,13 @@ export default {
 
 <style scoped>
 .todo {
+  padding-left: 10px;
   margin: 10px;
   border: 2px solid #f5e8b7;
   background-color: #f5e8b7;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  overflow: auto;
+  overflow-y: scroll;
   height: 350px;
   width: 250px;
   text-align: center;
@@ -103,11 +99,12 @@ export default {
 }
 
 .todo-status {
-  margin-top: 2%;
+  margin-top: 5%;
 }
 
 span.todo-title {
-  /* margin-top: 5%; */
+  margin-top: 5%;
+  line-height: 30px;
   display: block;
   font-size: 30px;
   color: #cd5c08;
@@ -119,6 +116,7 @@ span.todo-title {
 }
 
 span.todo-description {
+  line-height: 20px;
   margin-top: 5%;
   display: block;
   font-size: 20px;
@@ -131,18 +129,19 @@ span.todo-description {
 }
 
 .tags {
-  max-height: 20%;
+  margin-top: 5%;
 }
 
 span.tag {
-  padding: 2px;
-  margin: 2px;
+  padding: 4px 6px;
+  margin: 4px;
   color: rgb(120, 120, 120);
   border: 1px solid rgba(106, 156, 137, 0.5);
   background: rgba(193, 216, 195, 0.5);
 }
 
 .edit-button {
+  margin-top: 5%;
   margin-bottom: 5%;
 }
 </style>
