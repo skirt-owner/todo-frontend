@@ -12,6 +12,10 @@ const routes = [
         component: () => import("pages/TodoPage.vue"),
         props: true,
       },
+      {
+        path: "create",
+        component: () => import("pages/CreateTodoPage.vue"),
+      },
     ],
   },
   {
