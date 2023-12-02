@@ -72,6 +72,15 @@
         :isSelected="selectedTodos.includes(todo)"
         @select-todo="selectTodo"
       />
+
+      <q-btn
+        class="create-button"
+        icon="add"
+        color="teal"
+        dense
+        push
+        @click="openCreatePage"
+      ></q-btn>
     </div>
   </q-page>
 </template>
@@ -131,6 +140,9 @@ export default {
     await this.getTodos();
   },
   methods: {
+    openCreatePage() {
+      this.$router.push({ path: `/create` });
+    },
     arrayEquals(a, b) {
       return (
         Array.isArray(a) &&
